@@ -12,7 +12,6 @@ export default function App() {
     { name: string; amount: number; img: string }[]
   >([]);
   const [gift, setGift] = useState(INITIAL_GIFT);
-  const [openModal, setOpenModal] = useState(false)
 
 
   useEffect(() => {
@@ -32,7 +31,6 @@ export default function App() {
     if (gift.name.trim().length > 0) {
       setGiftList([gift, ...giftList])
       setGift(INITIAL_GIFT);
-      setOpenModal(false);
     }
   }
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -52,30 +50,17 @@ export default function App() {
     setGiftList([]);
   };
 
-  const handleCancel = ()=>{
-    setOpenModal(!openModal)
-  }
 
   return (
     <div className="App">
       <div className="container">
-        {openModal ? 
         <GiftModal
           name={gift.name}
           amount={gift.amount}
           image={gift.img}
           change={handleChange}
           submit={handleSubmit}
-          cancel={handleCancel}
         />
-          :
-          <button
-            className="container__btn-add"
-            onClick={() => setOpenModal(!openModal)}
-          >
-            Agregar un regalo
-          </button>}
-
 
         <div className="container__list">
           <h1>Lista de Regalos:</h1>
@@ -124,10 +109,9 @@ interface Props {
   image: string,
   change: ChangeEventHandler,
   submit: FormEventHandler,
-  cancel: MouseEventHandler,
 }
 
-function GiftModal({ name, amount, image, change, submit, cancel }: Props) {
+function GiftModal({ name, amount, image, change, submit }: Props) {
 
   return (
     <form
@@ -170,9 +154,6 @@ function GiftModal({ name, amount, image, change, submit, cancel }: Props) {
       <div className="container__form__btn-container">
       <button type="submit" className="container__btn-add">
         Agregar
-      </button>
-      <button type="button" className="container__btn-cancel" onClick={cancel}>
-        Cancelar
       </button>
       </div>
     </form>
